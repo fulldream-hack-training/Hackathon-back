@@ -6,7 +6,6 @@ import lombok.Getter;
 import lombok.Setter;
 
 import java.sql.Date;
-import java.sql.Timestamp;
 import java.util.UUID;
 
 @Entity
@@ -23,6 +22,13 @@ public class Balance {
     private Double amount;
     @Basic
     @Column(name = "date")
+    @GeneratedValue
     private Date date;
 
+    public Balance(Double amount) {
+        this.amount = amount;
+    }
+
+    public Balance() {
+    }
 }
