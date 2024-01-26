@@ -4,7 +4,6 @@ import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
 
-import java.lang.annotation.Target;
 import java.util.List;
 import java.util.UUID;
 
@@ -12,7 +11,7 @@ import java.util.UUID;
 @Table(name = "tutor")
 @Getter
 @Setter
-public class EndUser {
+public class EndTutor {
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
     private UUID id;
@@ -24,4 +23,12 @@ public class EndUser {
     private String username;
     @Column
     private String email;
+
+    @OneToMany
+    @JoinColumn(name = "id_tutor")
+    List<Tip> tips;
+
+    @OneToMany
+    @JoinColumn(name = "id_tutor")
+    List<Challenge> challenges;
 }
