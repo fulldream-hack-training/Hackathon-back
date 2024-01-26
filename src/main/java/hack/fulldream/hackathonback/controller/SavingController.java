@@ -21,10 +21,4 @@ public class SavingController {
     public ResponseEntity<Savings> findById(@PathVariable UUID id){
         return savingsService.findById(id).map(ResponseEntity::ok).orElseGet(() -> ResponseEntity.notFound().build());
     }
-
-    @PostMapping("/")
-    public ResponseEntity<Savings> save(Savings toSave){
-        Savings savings = savingsService.save(toSave);
-        return ResponseEntity.status(HttpStatus.OK).body(savings);
-    }
 }
