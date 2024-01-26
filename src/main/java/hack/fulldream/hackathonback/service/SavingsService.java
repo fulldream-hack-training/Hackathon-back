@@ -27,6 +27,10 @@ public class SavingsService {
         return savingsRepository.findById(id);
     }
 
+    public Savings findByKid(Kid kid) {
+        return savingsRepository.findSavingsByKid(kid);
+    }
+
     public Savings save(Savings toSave){
         return savingsRepository.save(toSave);
     }
