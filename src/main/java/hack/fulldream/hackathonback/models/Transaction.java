@@ -1,12 +1,12 @@
 package hack.fulldream.hackathonback.models;
 
+import hack.fulldream.hackathonback.utils.TransactionType;
 import jakarta.persistence.*;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.Setter;
 
 import java.sql.Timestamp;
-import java.util.List;
 import java.util.UUID;
 
 @EqualsAndHashCode
@@ -29,5 +29,8 @@ public class Transaction {
     private Timestamp date;
     @Basic
     @Column(name = "type")
-    private String type;
+    private TransactionType type;
+    @ManyToOne
+    @JoinColumn(name = "id_kid")
+    Kid kid;
 }

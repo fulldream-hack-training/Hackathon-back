@@ -36,9 +36,12 @@ public class BalanceService {
         balanceRepository.deleteById(id);
     }
 
-    public List<Balance> getLastBalance(){
+    public Balance getLastBalance() {
         List<Balance> balanceList = balanceRepository.findAll(Sort.sort(Timestamp.class).descending());
-        return balanceList;
+        if (balanceList.isEmpty()) {
+            return null;
+        }
+        return balanceList.get(0);
     }
 
 }

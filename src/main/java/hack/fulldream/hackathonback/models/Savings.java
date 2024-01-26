@@ -27,4 +27,12 @@ public class Savings {
     @Column(name = "start_date")
     private Date startDate;
 
+    @OneToOne
+    @JoinColumn(name = "id_kid")
+    Kid kid;
+
+    public Savings add(Double newValue) {
+        this.setValue(newValue);
+        return this;
+    }
 }
