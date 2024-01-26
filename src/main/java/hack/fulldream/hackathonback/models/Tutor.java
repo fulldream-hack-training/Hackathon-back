@@ -16,21 +16,28 @@ public class Tutor {
     @GeneratedValue(strategy = GenerationType.UUID)
     @Column(name = "id")
     UUID id;
-
     @Basic
     @Column(name = "first_name")
     String firstName;
-
     @Basic
     @Column(name = "last_name")
     String lastName;
-
     @Basic
     @Column(name = "email")
     String email;
-
     @Basic
     @Column(name = "password")
     String password;
 
+    @OneToMany
+    @JoinColumn(name = "id_tutor")
+    List<Kid> kids;
+
+    @OneToMany
+    @JoinColumn(name = "id_tutor")
+    List<Tip> tips;
+
+    @OneToMany
+    @JoinColumn(name = "id_tutor")
+    List<Challenge> challenges;
 }
