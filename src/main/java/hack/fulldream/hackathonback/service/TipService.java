@@ -3,11 +3,13 @@ package hack.fulldream.hackathonback.service;
 import hack.fulldream.hackathonback.models.Tip;
 import hack.fulldream.hackathonback.repository.TipRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
+@Service
 @RequiredArgsConstructor
 public class TipService {
     private final TipRepository tipRepository;
