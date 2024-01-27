@@ -6,7 +6,7 @@ import lombok.Setter;
 
 import java.util.UUID;
 
-@Entity
+@Entity(name = "tips")
 @Getter
 @Setter
 public class Tip {
