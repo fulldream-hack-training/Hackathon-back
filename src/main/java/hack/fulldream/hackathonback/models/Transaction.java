@@ -1,36 +1,34 @@
 package hack.fulldream.hackathonback.models;
 
-import hack.fulldream.hackathonback.utils.TransactionType;
 import jakarta.persistence.*;
-import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.Setter;
 
 import java.sql.Timestamp;
 import java.util.UUID;
 
-@EqualsAndHashCode
-@Setter
-@Getter
 @Entity
+@Getter
+@Setter
 public class Transaction {
-    @GeneratedValue(strategy = GenerationType.UUID)
     @Id
-    @Column(name = "id")
+    @GeneratedValue(strategy = GenerationType.UUID)
     private UUID id;
-    @Basic
-    @Column(name = "amount")
+
+    @Column
     private Double amount;
-    @Basic
-    @Column(name = "label")
+
+    @Column
     private String label;
-    @Basic
-    @Column(name = "date")
+
+    @Column
+    @GeneratedValue
     private Timestamp date;
-    @Basic
-    @Column(name = "type")
-    private TransactionType type;
+
+    @Column
+    private String type;
+
     @ManyToOne
     @JoinColumn(name = "id_kid")
-    Kid kid;
+    private Kid kid;
 }

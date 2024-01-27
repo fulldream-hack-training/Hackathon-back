@@ -1,34 +1,28 @@
 package hack.fulldream.hackathonback.models;
 
 import jakarta.persistence.*;
-import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.Setter;
 
-import java.sql.Date;
+import java.sql.Timestamp;
 import java.util.UUID;
 
 @Entity
 @Getter
 @Setter
-@EqualsAndHashCode
 public class Balance {
-    @GeneratedValue(strategy = GenerationType.UUID)
     @Id
-    @Column(name = "id")
+    @GeneratedValue(strategy = GenerationType.UUID)
     private UUID id;
-    @Basic
-    @Column(name = "amount")
+
+    @Column
     private Double amount;
-    @Basic
-    @Column(name = "date")
+
+    @Column
     @GeneratedValue
-    private Date date;
+    private Timestamp date;
 
-    public Balance(Double amount) {
-        this.amount = amount;
-    }
-
-    public Balance() {
-    }
+    @ManyToOne
+    @JoinColumn(name = "id_kid")
+    private Kid kid;
 }

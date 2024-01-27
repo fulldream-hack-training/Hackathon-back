@@ -1,25 +1,26 @@
 package hack.fulldream.hackathonback.models;
 
 import jakarta.persistence.*;
-import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.Setter;
 
 import java.util.UUID;
 
-@Entity(name = "tips")
+@Entity
 @Getter
 @Setter
-@EqualsAndHashCode
 public class Tip {
-    @GeneratedValue(strategy = GenerationType.UUID)
     @Id
-    @Column(name = "id")
+    @GeneratedValue(strategy = GenerationType.UUID)
     private UUID id;
-    @Basic
-    @Column(name = "title")
+
+    @Column
     private String title;
-    @Basic
-    @Column(name = "content")
+
+    @Column
     private String content;
+
+    @ManyToOne
+    @JoinColumn(name = "id_tutor")
+    private Tutor tutor;
 }

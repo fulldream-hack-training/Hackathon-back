@@ -28,16 +28,4 @@ public class Tutor {
     @Basic
     @Column(name = "password")
     String password;
-
-    @OneToMany
-    @JoinColumn(name = "id_tutor")
-    List<Kid> kids;
-
-    @OneToMany
-    @JoinColumn(name = "id_tutor")
-    List<Tip> tips;
-
-    @OneToMany
-    @JoinColumn(name = "id_tutor")
-    List<Challenge> challenges;
 }
