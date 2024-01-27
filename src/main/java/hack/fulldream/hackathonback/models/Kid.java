@@ -4,28 +4,27 @@ import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
 
-import java.util.List;
 import java.util.UUID;
 
 @Entity
 @Getter
 @Setter
-@Table(name = "tutor")
-public class Tutor {
+public class Kid {
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
-    @Column(name = "id")
-    UUID id;
-    @Basic
+    private UUID id;
+
     @Column(name = "first_name")
-    String firstName;
-    @Basic
+    private String firstName;
+
     @Column(name = "last_name")
-    String lastName;
-    @Basic
-    @Column(name = "email")
-    String email;
-    @Basic
-    @Column(name = "password")
-    String password;
+    private String lastName;
+
+    @Column
+    private Integer points;
+
+    @ManyToOne
+    @JoinColumn(name = "id_tutor")
+    private Tutor tutor;
+
 }

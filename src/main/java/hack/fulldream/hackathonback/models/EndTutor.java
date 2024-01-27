@@ -4,14 +4,12 @@ import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
 
-import java.util.List;
 import java.util.UUID;
 
-@Entity
+@Entity(name = "tutor")
 @Getter
 @Setter
-@Table(name = "tutor")
-public class Tutor {
+public class EndTutor {
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
     @Column(name = "id")
@@ -25,7 +23,4 @@ public class Tutor {
     @Basic
     @Column(name = "email")
     String email;
-    @Basic
-    @Column(name = "password")
-    String password;
 }
