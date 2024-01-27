@@ -25,4 +25,10 @@ public class EndTutorService {
     public EndTutor findByEmail(String email) {
         return endTutorRepo.findByEmail(email);
     }
+
+    public Optional<EndTutor> delete(UUID id) {
+        Optional<EndTutor> toDelete = endTutorRepo.findById(id);
+        toDelete.ifPresent(endTutor -> endTutorRepo.deleteById(endTutor.getId()));
+        return toDelete;
+    }
 }
