@@ -60,6 +60,7 @@ public class TransactionService {
 
     public Optional<Transaction> delete(UUID id) {
         Optional<Transaction> toDelete = transactionRepo.findById(id);
+        reverseTransaction(toDelete.get());
         if (toDelete.isPresent()) {
             transactionRepo.deleteById(id);
         }
@@ -72,6 +73,29 @@ public class TransactionService {
         if (ids.size() == toDelete.size()) {
             transactionRepo.deleteAllById(ids);
         }
+        for (Transaction element: toDelete){
+            reverseTransaction(element);
+        }
         return toDelete;
+    }
+
+    public Balance reverseTransaction(Transaction element){
+        Double newBalance = balanceService.getLastBalance().getAmount();
+        switch (element.getType()){
+            case DEBIT -> {
+                newBalance += element.getAmount();
+            }
+            case CREDIT -> {
+                newBalance -= element.getAmount();
+            }
+            case SAVING -> {
+                Double oldSaving = savingsService.findAll().get(0).getValue();
+                newBalance += element.getAmount();
+                savingsService.save(savingsService.findByKid(element.getKid())
+                        .add(oldSaving - element.getAmount())
+                );
+            }
+        }
+        return balanceService.save(new Balance(newBalance));
     }
 }
