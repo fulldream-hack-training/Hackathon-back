@@ -2,36 +2,27 @@ package hack.fulldream.hackathonback.service;
 
 import hack.fulldream.hackathonback.models.Tip;
 import hack.fulldream.hackathonback.repository.TipRepository;
-import org.springframework.stereotype.Service;
+import lombok.RequiredArgsConstructor;
 
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
-@Service
+@RequiredArgsConstructor
 public class TipService {
     private final TipRepository tipRepository;
 
-    public TipService(TipRepository tipRepository) {
-        this.tipRepository = tipRepository;
+    public List<Tip> getByTutorId(UUID idTutor) {
+        return tipRepository.findByTutorId(idTutor);
     }
 
-    public Optional<Tip> findById(UUID id){
-        return tipRepository.findById(id);
+    public Tip save(Tip tip) {
+        return tipRepository.save(tip);
     }
 
-    public Tip findByIdTutor(UUID id_tutor){
-        List<Tip> result = tipRepository.findAll()
-                .stream()
-                .filter(e -> e.getTutor().getId().equals(id_tutor))
-                .toList();
-        if (result.isEmpty()){
-            return null;
-        }
-        return result.get(0);
-    }
-
-    public Tip save(Tip toSave){
-        return tipRepository.save(toSave);
+    public Optional<Tip> delete(UUID id) {
+        Optional<Tip> toDelete = tipRepository.findById(id);
+        toDelete.ifPresent(value -> tipRepository.deleteById(value.getId()));
+        return toDelete;
     }
 }

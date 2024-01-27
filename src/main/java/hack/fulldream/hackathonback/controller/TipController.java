@@ -1,33 +1,37 @@
 package hack.fulldream.hackathonback.controller;
 
 import hack.fulldream.hackathonback.models.Tip;
+import hack.fulldream.hackathonback.service.EndTutorService;
 import hack.fulldream.hackathonback.service.TipService;
-import org.springframework.web.bind.annotation.*;
+import lombok.RequiredArgsConstructor;
+import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.Authentication;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PutMapping;
 
-import java.util.Optional;
+import java.util.List;
 import java.util.UUID;
 
-@RestController
-@RequestMapping("/api/tip")
+@RequiredArgsConstructor
 public class TipController {
     private final TipService tipService;
-
-    public TipController(TipService tipService) {
-        this.tipService = tipService;
+    private final EndTutorService endTutorService;
+    @GetMapping
+    public List<Tip> get(Authentication authentication) {
+        UUID tutorId = endTutorService.findByEmail(authentication.getName()).getId();
+        return tipService.getByTutorId(tutorId);
     }
 
-    @GetMapping("/{id}")
-    public Optional<Tip> findById(@PathVariable UUID id){
-        return tipService.findById(id);
+    @PutMapping
+    public Tip put(Tip tip) {
+        return tipService.save(tip);
     }
 
-    @GetMapping("/tutor/{id_tutor}")
-    public Tip findByIdTutor(@PathVariable UUID id_tutor){
-        return tipService.findByIdTutor(id_tutor);
-    }
-
-    @PostMapping
-    public Tip save(Tip toSave){
-        return tipService.save(toSave);
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Tip> delete(@PathVariable UUID id) {
+        return tipService.delete(id).map(ResponseEntity::ok)
+                .orElse(ResponseEntity.notFound().build());
     }
 }
