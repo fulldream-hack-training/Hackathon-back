@@ -1,5 +1,7 @@
 package hack.fulldream.hackathonback.service;
 
+import hack.fulldream.hackathonback.models.Balance;
+import hack.fulldream.hackathonback.models.Savings;
 import hack.fulldream.hackathonback.models.Tip;
 import hack.fulldream.hackathonback.models.Transaction;
 import hack.fulldream.hackathonback.repository.TransactionRepository;
@@ -16,6 +18,8 @@ import java.util.UUID;
 @RequiredArgsConstructor
 public class TransactionService {
     private final TransactionRepository transactionRepo;
+    private final BalanceService balanceService;
+    private final SavingService savingService;
 
     public Optional<Transaction> delete(UUID id) {
         Optional<Transaction> toDelete = transactionRepo.findById(id);
@@ -35,5 +39,26 @@ public class TransactionService {
 
     public Transaction save(Transaction transaction) {
         return transactionRepo.save(transaction);
+    }
+
+    public void applyTransaction(Transaction transaction){
+        Double newBalance = balanceService.getLastBalance(transaction.getKid().getId());
+
+        switch (transaction.getType()){
+            case "SAVING" :
+                Savings newSaving = savingService.findByIdKid(transaction.getKid().getId());
+                newSaving.setValue(newSaving.getValue() + transaction.getAmount());
+                savingService.save(newSaving);
+            case "DEBIT" :
+                newBalance += transaction.getAmount();
+                break;
+            case "CREDIT" :
+                newBalance -= transaction.getAmount();
+        }
+
+        Balance newBalanceModel = new Balance();
+        newBalanceModel.setAmount(newBalance);
+        balanceService.save(newBalanceModel);
+
     }
 }
